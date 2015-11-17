@@ -198,7 +198,7 @@ public class CollectionRestController extends BaseController implements Constant
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT})
+	@RedisCache(key = {CONTENT}, ttl = EXPIRY )
 	@RequestMapping(value = { RequestMappingUri.LESSON_COLLECTION_ID }, method = RequestMethod.GET)
 	public ModelAndView getCollection(@PathVariable(value = COURSE_ID) final String courseId, @PathVariable(value = UNIT_ID) final String unitId, @PathVariable(value = LESSON_ID) final String lessonId, @PathVariable(value = ID) final String collectionId,
 			@RequestParam(value = INCLUDE_ITEMS, required = false, defaultValue = FALSE) final boolean includeItems, @RequestParam(value = INCLUDE_LAST_MODIFIED_USER, required = false, defaultValue = FALSE) final boolean includeLastModifiedUser, final HttpServletRequest request,
@@ -208,7 +208,7 @@ public class CollectionRestController extends BaseController implements Constant
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT, COLLECTION})
+	@RedisCache(key = {CONTENT, COLLECTION}, ttl = EXPIRY)
 	@RequestMapping(value = { RequestMappingUri.LESSON_COLLECTION }, method = RequestMethod.GET)
 	public ModelAndView getCollections(@PathVariable(value = COURSE_ID) final String courseId, @PathVariable(value = UNIT_ID) final String unitId, @PathVariable(value = LESSON_ID) final String lessonUId, @RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") int offset,
 			@RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") int limit, @RequestParam(value = COLLECTION_TYPE, required = false, defaultValue = COLLECTION_TYPES) String collectionTypes, final HttpServletRequest request, final HttpServletResponse response) {
@@ -216,7 +216,7 @@ public class CollectionRestController extends BaseController implements Constant
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT, ITEM})
+	@RedisCache(key = {CONTENT, ITEM}, ttl = EXPIRY)
 	@RequestMapping(value = { RequestMappingUri.LESSON_COLLECTION_ITEM }, method = RequestMethod.GET)
 	public ModelAndView getCollectionItems(@PathVariable(value = COURSE_ID) final String courseUId, @PathVariable(value = UNIT_ID) final String unitUId, @PathVariable(value = LESSON_ID) final String lessonUId, @PathVariable(value = ID) final String collectionId,
 			@RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") int offset, @RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") int limit, final HttpServletRequest request, final HttpServletResponse response) {
@@ -224,7 +224,7 @@ public class CollectionRestController extends BaseController implements Constant
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT})
+	@RedisCache(key = {CONTENT}, ttl = EXPIRY)
 	@RequestMapping(value = { RequestMappingUri.LESSON_COLLECTION_RESOURCE_ID, RequestMappingUri.LESSON_COLLECTION_QUESTION_ID }, method = RequestMethod.GET)
 	public ModelAndView getResource(@PathVariable(value = COURSE_ID) final String courseUId, @PathVariable(value = UNIT_ID) final String unitUId, @PathVariable(value = LESSON_ID) final String lessonUId, @PathVariable(value = COLLECTION_ID) final String collectionId,
 			@PathVariable(value = ID) final String collectionItemId, final HttpServletRequest request, final HttpServletResponse response) {
@@ -232,7 +232,7 @@ public class CollectionRestController extends BaseController implements Constant
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT, CLASS})
+	@RedisCache(key = {CONTENT, CLASS}, ttl = EXPIRY)
 	@RequestMapping(value = { RequestMappingUri.COURSE_COLLECTION_CLASSES }, method = RequestMethod.GET)
 	public ModelAndView getClasses(@PathVariable(value = COURSE_ID) final String courseUId, @PathVariable(value = UNIT_ID) final String unitUId, @PathVariable(value = LESSON_ID) final String lessonUId, @PathVariable(value = ID) final String collectionId,
 			@RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") int offset, @RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") int limit, final HttpServletRequest request, final HttpServletResponse response) {

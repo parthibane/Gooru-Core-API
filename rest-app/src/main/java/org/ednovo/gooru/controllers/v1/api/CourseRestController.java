@@ -71,21 +71,21 @@ public class CourseRestController extends BaseController implements ConstantProp
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT}, ttl=900)
+	@RedisCache(key = {CONTENT}, ttl=EXPIRY)
 	@RequestMapping(value = RequestMappingUri.ID, method = RequestMethod.GET)
 	public ModelAndView getCourse(@PathVariable(value = ID) final String courseId, final HttpServletRequest request, final HttpServletResponse response) {
 		return toModelAndViewWithIoFilter(this.getCourseService().getCourse(courseId), RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, "*");
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT,COURSES}, ttl=900)
+	@RedisCache(key = {CONTENT,COURSES}, ttl=EXPIRY)
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getCourses(@RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") int offset, @RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") int limit, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		return toModelAndViewWithIoFilter(this.getCourseService().getCourses(limit, offset), RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, "*");
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_CLASSPAGE_READ })
-	@RedisCache(key = {CONTENT}, ttl=900)
+	@RedisCache(key = {CONTENT}, ttl=EXPIRY)
 	@RequestMapping(value = RequestMappingUri.COURSES_CLASS, method = RequestMethod.GET)
 	public ModelAndView getClasses(@PathVariable(value = ID) final String courseGooruOid, @RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") final int offset, @RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") final int limit,
 			final HttpServletRequest request, final HttpServletResponse response) {

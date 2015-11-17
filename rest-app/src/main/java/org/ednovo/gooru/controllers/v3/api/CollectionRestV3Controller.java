@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.ednovo.gooru.application.spring.ClearCache;
+import org.ednovo.gooru.application.spring.RedisCache;
 import org.ednovo.gooru.controllers.BaseController;
 import org.ednovo.gooru.core.api.model.ActionResponseDTO;
 import org.ednovo.gooru.core.api.model.Collection;
@@ -46,6 +48,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 	
 	private static final String INCLUDE_LAST_MODIFIED_USER = "includeLastModifiedUser";
 
+	@ClearCache(key = {CONTENT})
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_ADD })
 	@RequestMapping(value = { RequestMappingUri.V3_COLLECTION }, method = RequestMethod.POST)
 	public ModelAndView createCollection(@RequestBody final String data, @RequestParam(value = FOLDER_ID, required = false) final String folderId, final HttpServletRequest request, final HttpServletResponse response) {
@@ -61,6 +64,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		return toModelAndViewWithIoFilter(responseDTO.getModelData(), RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, includes);
 	}
 
+	@ClearCache(key = {CONTENT}, id = ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_UPDATE })
 	@RequestMapping(value = { RequestMappingUri.V3_COLLECTION_ID }, method = RequestMethod.PUT)
 	public void updateCollection(@PathVariable(value = ID) final String collectionId, @RequestBody final String data, final HttpServletRequest request, final HttpServletResponse response) {
@@ -68,6 +72,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		this.getCollectionBoService().updateCollection(null, collectionId, buildCollection(data), user);
 	}
 
+	@ClearCache(key = {CONTENT}, id = ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_COPY })
 	@RequestMapping(value = { RequestMappingUri.V3_SOURCE_COLLECTION_ID }, method = RequestMethod.POST)
 	public ModelAndView collectionCopy(@PathVariable(value = ID) final String collectionId, @RequestParam(value = FOLDER_ID, required = false) final String folderId, @RequestBody final String data, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -79,6 +84,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		return toModelAndViewWithIoFilter(collection, RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, includes);
 	}
 
+	@ClearCache(key = {CONTENT}, id = ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_MOVE })
 	@RequestMapping(value = { RequestMappingUri.V3_SOURCE_COLLECTION_ID }, method = RequestMethod.PUT)
 	public void moveCollection(@PathVariable(value = ID) final String collectionId, @RequestParam(value = FOLDER_ID, required = false) final String folderId, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -86,6 +92,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		getCollectionBoService().moveCollection(folderId, collectionId, user);
 	}
 
+	@ClearCache(key = {CONTENT}, id = ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_ADD })
 	@RequestMapping(value = { RequestMappingUri.COLLECTION_RESOURCE }, method = RequestMethod.POST)
 	public ModelAndView createResource(@PathVariable(value = ID) final String collectionId, @RequestBody final String data, final HttpServletRequest request, final HttpServletResponse response) {
@@ -102,6 +109,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		return toModelAndViewWithIoFilter(responseDTO.getModelData(), RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, includes);
 	}
 
+	@ClearCache(key = {CONTENT}, id = COLLECTION_ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_ADD })
 	@RequestMapping(value = { RequestMappingUri.COLLECTION_RESOURCE_ID }, method = RequestMethod.POST)
 	public ModelAndView addResource(@PathVariable(value = COLLECTION_ID) final String collectionId, @PathVariable(value = ID) final String resourceId, @RequestParam(value = COLLECTION_ITEM_ID, required= false) final String collectionItemId, final HttpServletRequest request, final HttpServletResponse response) {
@@ -112,6 +120,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		return toModelAndViewWithIoFilter(collectionItem, RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, includes);
 	}
 
+	@ClearCache(key = {CONTENT}, id = COLLECTION_ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_UPDATE })
 	@RequestMapping(value = { RequestMappingUri.COLLECTION_RESOURCE_ID }, method = RequestMethod.PUT)
 	public void updateResource(@PathVariable(value = COLLECTION_ID) final String collectionId, @PathVariable(value = ID) final String collectionItemId, @RequestBody final String data, final HttpServletRequest request, final HttpServletResponse response) {
@@ -119,6 +128,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		this.getCollectionBoService().updateResource(collectionId, collectionItemId, buildCollectionItem(data), user);
 	}
 
+	@ClearCache(key = {CONTENT}, id = ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_ADD })
 	@RequestMapping(value = { RequestMappingUri.COLLECTION_QUESTION }, method = RequestMethod.POST)
 	public ModelAndView createQuestion(@PathVariable(value = ID) final String collectionId, @RequestBody final String data, final HttpServletRequest request, final HttpServletResponse response) {
@@ -130,6 +140,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		return toModelAndViewWithIoFilter(collectionItem, RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, includes);
 	}
 
+	@ClearCache(key = {CONTENT}, id = COLLECTION_ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_ADD })
 	@RequestMapping(value = { RequestMappingUri.COLLECTION_QUESTION_ID }, method = RequestMethod.POST)
 	public ModelAndView addQuestion(@PathVariable(value = COLLECTION_ID) final String collectionId, @PathVariable(value = ID) final String questionId, @RequestParam(value = COLLECTION_ITEM_ID, required= false) final String collectionItemId, final HttpServletRequest request, final HttpServletResponse response) {
@@ -140,6 +151,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		return toModelAndViewWithIoFilter(collectionItem, RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, includes);
 	}
 
+	@ClearCache(key = {CONTENT}, id = COLLECTION_ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_UPDATE })
 	@RequestMapping(value = { RequestMappingUri.COLLECTION_QUESTION_ID }, method = RequestMethod.PUT)
 	public void updateQuestion(@PathVariable(value = COLLECTION_ID) final String collectionId, @PathVariable(value = ID) final String collectionItemId, @RequestBody final String data, final HttpServletRequest request, final HttpServletResponse response) {
@@ -147,6 +159,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		this.getCollectionBoService().updateQuestion(collectionId, collectionItemId, data, user);
 	}
 
+	@ClearCache(key = {CONTENT}, id = COLLECTION_ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_UPDATE })
 	@RequestMapping(value = { RequestMappingUri.COLLECTION_ITEM_ID }, method = RequestMethod.PUT)
 	public void updateCollectionItem(@PathVariable(value = COLLECTION_ID) final String collectionId, @PathVariable(value = ID) final String collectionItemId, @RequestBody final String data, final HttpServletRequest request, final HttpServletResponse response) {
@@ -154,6 +167,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 		this.getCollectionBoService().updateCollectionItem(collectionId, collectionItemId, buildCollectionItem(data), user);
 	}
 
+	@ClearCache(key = {CONTENT}, id = COLLECTION_ID)
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_DELETE })
 	@RequestMapping(value = { RequestMappingUri.COLLECTION_ITEM_ID }, method = RequestMethod.DELETE)
 	public void deleteCollectionItem(@PathVariable(value = COLLECTION_ID) final String collectionId, @PathVariable(value = ID) final String collectionItemId, final HttpServletRequest request, final HttpServletResponse response) {
@@ -162,6 +176,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
+	@RedisCache(key = {CONTENT}, ttl=EXPIRY)
 	@RequestMapping(value = { RequestMappingUri.V3_COLLECTION_ID }, method = RequestMethod.GET)
 	public ModelAndView getCollection(@PathVariable(value = ID) final String collectionId, @RequestParam(value = INCLUDE_ITEMS, required = false, defaultValue = FALSE) final boolean includeItems, @RequestParam(value = INCLUDE_LAST_MODIFIED_USER, required = false, defaultValue = FALSE) final boolean includeLastModifiedUser, final HttpServletRequest request, final HttpServletResponse response) {
 		final User user = (User) request.getAttribute(Constants.USER);
@@ -169,6 +184,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
+	@RedisCache(key = {CONTENT}, ttl=EXPIRY)
 	@RequestMapping(value = { RequestMappingUri.ITEM_ID }, method = RequestMethod.GET)
 	public ModelAndView getCollectionItems(@PathVariable(value = ID) final String collectionId, @RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") int offset, @RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") int limit,
 			final HttpServletRequest request, final HttpServletResponse response) {
@@ -176,6 +192,7 @@ public class CollectionRestV3Controller extends BaseController implements Consta
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
+	@RedisCache(key = {CONTENT}, ttl=EXPIRY)
 	@RequestMapping(value = { RequestMappingUri.COLLECTION_RESOURCE_ID, RequestMappingUri.COLLECTION_QUESTION_ID }, method = RequestMethod.GET)
 	public ModelAndView getResource(@PathVariable(value = COLLECTION_ID) final String collectionId, @PathVariable(value = ID) final String collectionItemId, final HttpServletRequest request, final HttpServletResponse response) {
 		return toModelAndViewWithIoFilter(this.getCollectionBoService().getCollectionItem(collectionId, collectionItemId), RESPONSE_FORMAT_JSON, EXCLUDE_COLLECTION_ITEMS, true, INCLUDE_COLLECTION_ITEMS);
