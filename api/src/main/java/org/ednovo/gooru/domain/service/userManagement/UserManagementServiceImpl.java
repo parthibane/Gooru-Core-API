@@ -1395,9 +1395,9 @@ public class UserManagementServiceImpl extends BaseServiceImpl implements UserMa
 		final PartyCustomField partyCustomField = partyService.getPartyCustomeField(user.getPartyUid(), USER_TAXONOMY_ROOT_CODE, null);
 		final Map<String, Object> taxonomy = new HashMap<String, Object>();
 		final String taxonomyCodeIds = (partyCustomField != null && (partyCustomField.getOptionalValue().isEmpty() || partyCustomField.getOptionalValue().length() > 0)) ? partyCustomField.getOptionalValue() : this.getTaxonomyRespository().getFindTaxonomyList(
-				settingService.getConfigSetting(ConfigConstants.GOORU_EXCLUDE_TAXONOMY_PREFERENCE, 0, user.getOrganization().getPartyUid()));
+				settingService.getConfigSetting(ConfigConstants.GOORU_EXCLUDE_TAXONOMY_PREFERENCE, 0, TaxonomyUtil.GOORU_ORG_UID));
 
-		if (taxonomyCodeIds != null & !taxonomyCodeIds.isEmpty()) {
+		if ( !taxonomyCodeIds.isEmpty()) {
 			final String taxonomyCode = this.getTaxonomyRespository().getFindTaxonomyCodeList(taxonomyCodeIds);
 			if (taxonomyCode != null) {
 				final List<String> taxonomyCodeList = Arrays.asList(taxonomyCode.split(","));
