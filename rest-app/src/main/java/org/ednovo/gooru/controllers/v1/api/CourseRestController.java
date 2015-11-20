@@ -85,7 +85,6 @@ public class CourseRestController extends BaseController implements ConstantProp
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_CLASSPAGE_READ })
-	@RedisCache(key = {CONTENT}, ttl=EXPIRY)
 	@RequestMapping(value = RequestMappingUri.COURSES_CLASS, method = RequestMethod.GET)
 	public ModelAndView getClasses(@PathVariable(value = ID) final String courseGooruOid, @RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") final int offset, @RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") final int limit,
 			final HttpServletRequest request, final HttpServletResponse response) {

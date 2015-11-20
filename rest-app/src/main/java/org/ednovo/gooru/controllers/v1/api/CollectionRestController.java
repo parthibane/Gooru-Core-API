@@ -232,7 +232,6 @@ public class CollectionRestController extends BaseController implements Constant
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT, CLASS}, ttl = EXPIRY)
 	@RequestMapping(value = { RequestMappingUri.COURSE_COLLECTION_CLASSES }, method = RequestMethod.GET)
 	public ModelAndView getClasses(@PathVariable(value = COURSE_ID) final String courseUId, @PathVariable(value = UNIT_ID) final String unitUId, @PathVariable(value = LESSON_ID) final String lessonUId, @PathVariable(value = ID) final String collectionId,
 			@RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") int offset, @RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") int limit, final HttpServletRequest request, final HttpServletResponse response) {
