@@ -982,4 +982,6 @@ public interface ConstantProperties extends ErrorCodeProperties {
 	
 	final static String SESSION_TOKEN = "sessionToken";
 	
+	public static final int EXPIRY = 600;
+	
 }

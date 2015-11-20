@@ -68,14 +68,14 @@ public class LessonRestController extends BaseController implements ConstantProp
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT}, ttl=900)
+	@RedisCache(key = {CONTENT}, ttl=EXPIRY)
 	@RequestMapping(value = RequestMappingUri.ID, method = RequestMethod.GET)
 	public ModelAndView getLesson(@PathVariable(value = COURSE_ID) final String courseId, @PathVariable(value = UNIT_ID) final String unitId, @PathVariable(value = ID) final String lessonId, final HttpServletRequest request, final HttpServletResponse response) {
 		return toModelAndViewWithIoFilter(this.getLessonService().getLesson(lessonId), RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, "*");
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT,LESSONS}, ttl=900)
+	@RedisCache(key = {CONTENT,LESSONS}, ttl=EXPIRY)
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getLessons(@PathVariable(value = COURSE_ID) final String courseId, @PathVariable(value = UNIT_ID) final String unitId, @RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") int offset, @RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") int limit, final HttpServletRequest request, final HttpServletResponse response) {
 		return toModelAndViewWithIoFilter(this.getLessonService().getLessons(unitId, limit, offset), RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, "*");

@@ -68,14 +68,14 @@ public class UnitRestController extends BaseController implements ConstantProper
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT}, ttl=900)
+	@RedisCache(key = {CONTENT}, ttl=EXPIRY)
 	@RequestMapping(value = RequestMappingUri.ID, method = RequestMethod.GET)
 	public ModelAndView getUnit(@PathVariable(value = COURSE_ID) final String courseId, @PathVariable(value = ID) final String unitId, final HttpServletRequest request, final HttpServletResponse response) {
 		return toModelAndViewWithIoFilter(getUnitService().getUnit(unitId), RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, "*");
 	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_SCOLLECTION_READ })
-	@RedisCache(key = {CONTENT, UNIT}, ttl=900)
+	@RedisCache(key = {CONTENT, UNIT}, ttl=EXPIRY)
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getUnits(@PathVariable(value = COURSE_ID) final String courseId, @RequestParam(value = OFFSET_FIELD, required = false, defaultValue = "0") int offset, @RequestParam(value = LIMIT_FIELD, required = false, defaultValue = "10") int limit, final HttpServletRequest request,
 			final HttpServletResponse response) {

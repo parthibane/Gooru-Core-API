@@ -11,7 +11,7 @@ public @interface ClearCache {
 
 	public String[] key() default "";
 	
-	public String id();
+	public String id() default "";
 	
 	public boolean deleteSessionUserCache() default true;
 }

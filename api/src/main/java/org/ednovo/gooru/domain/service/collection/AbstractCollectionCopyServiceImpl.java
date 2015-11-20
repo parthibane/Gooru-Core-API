@@ -106,6 +106,7 @@ public abstract class AbstractCollectionCopyServiceImpl extends AbstractResource
 		destCollection.setDescription(sourceCollection.getDescription());
 		destCollection.setNotes(sourceCollection.getNotes());
 		destCollection.setLanguage(sourceCollection.getLanguage());
+		destCollection.setLanguageObjective(sourceCollection.getLanguageObjective());
 		destCollection.setGooruOid(UUID.randomUUID().toString());
 		destCollection.setContentType(sourceCollection.getContentType());
 		destCollection.setLastModified(new Date(System.currentTimeMillis()));
