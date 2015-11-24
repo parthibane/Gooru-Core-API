@@ -204,6 +204,12 @@ public class ResourceRestV2Controller extends BaseController implements Constant
 	public ModelAndView checkResourceUrlExists(@RequestParam(value = URL) final String url, @RequestParam(required = false, value = CHK_SHORTENED_URL, defaultValue = FALSE) final boolean checkShortenedUrl) throws Exception {
 		return toModelAndViewWithIoFilter(this.getResourceService().checkResourceUrlExists(url, checkShortenedUrl), RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, RESOURCE_INSTANCE_INCLUDES);
 	}
+	
+	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_RESOURCE_READ })
+	@RequestMapping(method = RequestMethod.POST, value = "/url/exist")
+	public ModelAndView resourceUrlExists(@RequestParam(value = URL) final String url, @RequestParam(required = false, value = CHK_SHORTENED_URL, defaultValue = FALSE) final boolean checkShortenedUrl) throws Exception {
+		return toModelAndViewWithIoFilter(this.getResourceService().checkResourceUrlExists(url, checkShortenedUrl), RESPONSE_FORMAT_JSON, EXCLUDE_ALL, true, RESOURCE_INSTANCE_INCLUDES);
+	}
 
 	@AuthorizeOperations(operations = { GooruOperationConstants.OPERATION_USER_READ })
 	@RequestMapping(method = { RequestMethod.GET }, value = "/{id}/collection")
