@@ -742,26 +742,21 @@ public class MailHandler extends ServerValidationUtils implements ConstantProper
 		final String serverpath = BaseUtil.changeHttpsProtocolByHeader(this.getServerConstants().getProperty(SERVERPATH));
 		StringBuilder url =  new StringBuilder(serverpath);
 		url.append("#student-view&id=").append(gooruOid).append("&c-id=").append(courseId).append("&userEmailId=").append(email);
-		String shortenUrl = this.shareService.getShortenUrl(url.toString(), true);
 		EventMapping eventMapping = this.getEventService().getTemplatesByEventName(CustomProperties.EventMapping.SEND_MAIL_TO_OPEN_CLASS_USER.getEvent());
 		Map<String, Object> map = eventMapData(eventMapping);
-		map.put("serverpath", serverpath);
+		map.put(SHORTEN_URL, url.toString());
+		map.put(SERVERPATH, serverpath);
 		map.put(TITLE, title);
 		map.put(TEACHERNAME, user.getUsername());
 		map.put(MEMBERMAILID, email);
 		map.put(GOORU_OID, gooruOid);
 		map.put(RECIPIENT, email);
 		map.put(COURSE_ID, courseId);
-		map.put("classCode", classCode);
-		if (shortenUrl != null) {
-			Map<String, Object> result = JsonDeserializer.deserialize(shortenUrl, new TypeReference<Map<String, Object>>() {
-			});
-			map.put(SHORTEN_URL, result.get("shortenUrl"));
-		}
+		map.put(CLASS_CODE, classCode);
 		map.put(HTMLCONTENT, generateMessage((String) map.get("templateContent"), map));
 		map.put(SUBJECT, inviteUser + "  has shared their class \"" + title + "\" " + " with you");
 		map.put(CONTENT, generateMessage((String) map.get(TEXTCONTENT), map));
-		map.put("from", getConfigSetting(ConfigConstants.MAIL_FROM, TaxonomyUtil.GOORU_ORG_UID));
+		map.put(FROM, getConfigSetting(ConfigConstants.MAIL_FROM, TaxonomyUtil.GOORU_ORG_UID));
 		map.put(BCC, getConfigSetting(ConfigConstants.MAIL_BCC_SUPPORT, TaxonomyUtil.GOORU_ORG_UID));
 		map.put(FROMNAME, FROM_GOORU);
 		sendMailViaRestApi(map);
