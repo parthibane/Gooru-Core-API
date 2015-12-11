@@ -342,6 +342,11 @@ public class AccountServiceImpl extends ServerValidationUtils implements Account
 				final String apiKey = request.getHeader(Constants.GOORU_API_KEY) != null ? request.getHeader(Constants.GOORU_API_KEY) : request.getParameter(API_KEY);
 				final Application application = this.getApplicationRepository().getApplication(apiKey);
 				rejectIfNull(application, GL0007, API_KEY);
+				
+				// APIKEY domain white listing verification based on request
+				// referrer and host headers.
+				verifyApikeyDomains(request, application);
+				
 				final Organization org = application.getOrganization();
 				final String partyUid = org.getPartyUid();
 				final String anonymousUid = organizationSettingRepository.getOrganizationSetting(Constants.ANONYMOUS, partyUid);
@@ -356,6 +361,11 @@ public class AccountServiceImpl extends ServerValidationUtils implements Account
 					rejectIfNull(user, GL0056, USER);
 					if (!this.getUserService().isContentAdmin(user)) {
 						final Application userApiKey = this.getApplicationRepository().getApplicationByOrganization(user.getOrganization().getPartyUid());
+						
+						// APIKEY domain white listing verification based on request
+						// referrer and host headers.
+						verifyApikeyDomains(request, userApiKey);
+						
 						userToken = this.createSessionToken(user, userApiKey.getKey(), request);
 					} else {
 						throw new BadRequestException(generateErrorMessage(GL0042, _USER), GL0042);
