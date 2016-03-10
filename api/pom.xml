@@ -335,8 +335,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>${servlet.version}</version>
-			<scope>provided</scope>
+			<version>3.0-alpha-1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gdata</groupId>

@@ -12,7 +12,6 @@ import org.ednovo.gooru.cassandra.core.CassandraIndexSrcBuilder;
 import org.ednovo.gooru.core.cassandra.model.IsCassandraIndexable;
 import org.ednovo.gooru.core.exception.NotFoundException;
 
-import com.sun.jersey.impl.ApiMessages;
 
 
 /**
